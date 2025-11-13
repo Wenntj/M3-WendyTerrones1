@@ -692,4 +692,3 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   usernameInput.focus();
 }
 
-
