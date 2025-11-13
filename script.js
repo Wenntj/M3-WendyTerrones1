@@ -21,7 +21,7 @@ const capitalData = [
     country: "Egipto",
     capital: "El Cairo",
     region: "África",
-    image: "https://images.unsplash.com/photo-1544983074-0f4a2d238b0d?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Australia",
@@ -69,7 +69,7 @@ const capitalData = [
     country: "México",
     capital: "Ciudad de México",
     region: "América",
-    image: "https://images.unsplash.com/photo-1526402465762-c2f94db4ccb1?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1524222872485-32137a5f66d5?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Alemania",
@@ -691,6 +691,4 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
-
-
 
