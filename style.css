@@ -82,6 +82,12 @@ body {
   grid-column: 1 / -1;
 }
 
+@media (max-width: 768px) {
+  .hud {
+    z-index: 1000;
+  }
+}
+
 .leaderboard-toggle {
   display: none;
   background: rgba(255, 255, 255, 0.2);
@@ -435,6 +441,7 @@ body {
   z-index: -2;
   border-radius: 17px;
   transform: none;
+  will-change: auto;
 }
 
 .option-card::after {
@@ -464,6 +471,11 @@ body {
     z-index: 5;
     border-color: var(--primary-red);
     box-shadow: 0 16px 48px rgba(220, 38, 38, 0.4);
+  }
+  
+  .option-card:hover:not([data-state="disabled"]):not(.correct):not(.incorrect)::before {
+    transform: none;
+    background-size: cover;
   }
 }
 
@@ -638,6 +650,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     overflow: hidden;
+    position: relative;
   }
 
   .leaderboard-toggle {
@@ -693,7 +706,10 @@ body {
     padding-top: calc(12px + env(safe-area-inset-top));
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000 !important;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--primary-red) !important;
   }
 
   .hud__group {
@@ -730,6 +746,11 @@ body {
     min-width: 100px;
     max-width: 140px;
     aspect-ratio: 3 / 4;
+  }
+  
+  .option-card::before {
+    background-size: cover;
+    background-position: center;
   }
 
   .progress {
@@ -910,6 +931,8 @@ body {
     font-size: 0.85rem;
   }
 }
+
+
 
 
 

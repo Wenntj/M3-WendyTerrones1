@@ -57,7 +57,7 @@ const capitalData = [
     country: "Argentina",
     capital: "Buenos Aires",
     region: "América",
-    image: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80",
+    image: "https://i.imgur.com/N4sQr5z.jpg",
   },
   {
     country: "Sudáfrica",
