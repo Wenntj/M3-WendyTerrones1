@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capital Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <div class="ambient"></div>
+      <header class="hud">
+        <div class="hud__group">
+          <span class="hud__label">Ronda</span>
+          <span class="hud__value" id="round-indicator">0 / 0</span>
+        </div>
+        <div class="hud__group">
+          <span class="hud__label">Racha</span>
+          <span class="hud__value" id="streak-indicator">0</span>
+        </div>
+        <div class="hud__group">
+          <span class="hud__label">Puntaje</span>
+          <span class="hud__value" id="score-indicator">0</span>
+        </div>
+      </header>
+
+      <section class="screen screen--active" id="welcome-screen">
+        <div class="panel panel--centered">
+          <p class="tagline">Stand interactivo · Geografía Express</p>
+          <h1 class="title">Capital Quest</h1>
+          <p class="lead">
+            Identifica el país correcto para cada capital y gana la partida en
+            menos de dos minutos.
+          </p>
+          <button class="btn btn--primary" id="start-btn">Comenzar</button>
+        </div>
+      </section>
+
+      <section class="screen" id="game-screen">
+        <div class="panel">
+          <p class="subtitle">¿De qué país es la capital?</p>
+          <h2 class="capital" id="capital-name">—</h2>
+          <div class="carousel" id="options-container"></div>
+          <div class="progress">
+            <span id="timer-indicator">02:00</span>
+            <div class="progress__meter">
+              <div class="progress__bar" id="progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="result-screen">
+        <div class="panel panel--centered">
+          <p class="tagline">Resultados finales</p>
+          <h2 class="title" id="result-title">¡Bien hecho!</h2>
+          <p class="lead" id="result-summary">
+            Completaste todas las rondas. ¿Listo para intentarlo de nuevo?
+          </p>
+          <button class="btn" id="restart-btn">Jugar otra vez</button>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>
+          Desarrollado en vivo con HTML · CSS · JavaScript · Cursor |
+          <span id="question-count">0 preguntas</span>
+        </p>
+      </footer>
+    </main>
+
+    <script src="./script.js" type="module"></script>
+  </body> a
+</html>
