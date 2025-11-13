@@ -427,18 +427,20 @@ function createOptionCard(option, index) {
   }
   
   button.style.setProperty("--image", `url("${imageUrl}")`);
+  button.style.backgroundImage = `url("${imageUrl}")`;
 
   const img = new Image();
   img.onload = () => {
     button.style.setProperty("--image", `url("${imageUrl}")`);
+    button.style.backgroundImage = `url("${imageUrl}")`;
   };
   img.onerror = () => {
     const countryData = capitalData.find(item => item.country === option.country);
-    if (countryData && countryData.image) {
-      button.style.setProperty("--image", `url("${countryData.image}")`);
-    } else {
-      button.style.setProperty("--image", `url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80")`);
-    }
+    const fallbackUrl = countryData && countryData.image 
+      ? countryData.image 
+      : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+    button.style.setProperty("--image", `url("${fallbackUrl}")`);
+    button.style.backgroundImage = `url("${fallbackUrl}")`;
   };
   img.src = imageUrl;
 
@@ -689,5 +691,4 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
-
 
