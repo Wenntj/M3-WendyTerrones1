@@ -21,7 +21,7 @@ const capitalData = [
     country: "Egipto",
     capital: "El Cairo",
     region: "África",
-    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1544983074-0f4a2d238b0d?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Australia",
@@ -57,7 +57,7 @@ const capitalData = [
     country: "Argentina",
     capital: "Buenos Aires",
     region: "América",
-    image: "https://images.unsplash.com/photo-1580843490734-2f9b92afb378?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Sudáfrica",
@@ -117,7 +117,7 @@ const capitalData = [
     country: "Perú",
     capital: "Lima",
     region: "América",
-    image: "https://images.unsplash.com/photo-1531961463838-b2d4c1e1b0a2?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -691,4 +691,6 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
+
+
 
