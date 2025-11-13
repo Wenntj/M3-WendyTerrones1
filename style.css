@@ -440,8 +440,9 @@ body {
   opacity: 1 !important;
   z-index: -2;
   border-radius: 17px;
-  transform: none;
+  transform: none !important;
   will-change: auto;
+  image-rendering: auto;
 }
 
 .option-card::after {
@@ -493,20 +494,28 @@ body {
 
 @keyframes correctPulse {
   0% {
-    transform: scale(1);
+    transform: translateY(0);
   }
   50% {
-    transform: scale(1.05);
+    transform: translateY(-2px);
   }
   100% {
-    transform: scale(1);
+    transform: translateY(0);
   }
+}
+
+.option-card.correct::before {
+  transform: none !important;
 }
 
 .option-card.incorrect {
   border-color: var(--danger);
   box-shadow: 0 16px 48px rgba(239, 68, 68, 0.3);
   animation: shake 0.5s ease-out;
+}
+
+.option-card.incorrect::before {
+  transform: none !important;
 }
 
 @keyframes shake {
@@ -519,6 +528,10 @@ body {
   75% {
     transform: translateX(10px);
   }
+}
+
+.option-card[data-state="disabled"]::before {
+  transform: none !important;
 }
 
 .progress {
@@ -751,6 +764,7 @@ body {
   .option-card::before {
     background-size: cover;
     background-position: center;
+    transform: none !important;
   }
 
   .progress {
@@ -931,6 +945,7 @@ body {
     font-size: 0.85rem;
   }
 }
+
 
 
 
