@@ -65,7 +65,7 @@ body {
 .hud,
 .footer {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,7 +114,7 @@ body {
 
 .leaderboard {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   width: 280px;
   background: var(--gray-light);
   border-right: 2px solid var(--primary-red);
@@ -219,7 +219,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 99;
+  z-index: 98;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -634,7 +634,7 @@ body {
     max-width: 85vw;
     min-height: 100vh;
     height: 100vh;
-    z-index: 100;
+    z-index: 99;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 4px 0 20px var(--shadow-lg);
     border-right: 2px solid var(--primary-red);
