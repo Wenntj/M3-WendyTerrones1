@@ -121,7 +121,6 @@ const capitalData = [
   },
 ];
 
-// Esperar a que el DOM esté listo
 const SCREENS = {
   welcome: document.getElementById("welcome-screen"),
   game: document.getElementById("game-screen"),
@@ -150,11 +149,6 @@ const leaderboardOverlay = document.getElementById("leaderboard-overlay");
 const couponCode = document.getElementById("coupon-code");
 const couponDiscount = document.getElementById("coupon-discount");
 
-// Verificar que los elementos existan
-if (!SCREENS.welcome || !SCREENS.game || !SCREENS.result) {
-  console.error("Error: No se encontraron las pantallas del juego");
-}
-
 const MAX_ROUNDS = 5;
 const MAX_TIME = 120;
 const POINTS_PER_CORRECT = 100;
@@ -168,7 +162,6 @@ let timerId = null;
 let locked = false;
 let currentPlayer = "";
 
-// Leaderboard desde localStorage
 function getLeaderboard() {
   const stored = localStorage.getItem("capitalQuestLeaderboard");
   return stored ? JSON.parse(stored) : [];
@@ -219,7 +212,6 @@ function updateLeaderboardDisplay() {
   });
 }
 
-// Toggle leaderboard en mobile
 function toggleLeaderboard() {
   if (!leaderboard || !leaderboardOverlay) return;
   leaderboard.classList.toggle("leaderboard--visible");
@@ -232,7 +224,6 @@ function closeLeaderboard() {
   leaderboardOverlay.classList.remove("leaderboard-overlay--visible");
 }
 
-// Generar cupón aleatorio
 function generateCoupon() {
   if (!couponCode || !couponDiscount) return;
   
@@ -249,7 +240,6 @@ function generateCoupon() {
   return { code, discount };
 }
 
-// Efecto confetti rojo
 function createConfetti() {
   const container = document.createElement("div");
   container.className = "confetti-container";
@@ -291,12 +281,10 @@ function buildQuestions() {
   const selected = shuffled.slice(0, MAX_ROUNDS);
   
   return selected.map((entry) => {
-    // Asegurar que la entrada tenga imagen
     if (!entry.image) {
       entry.image = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
     }
     
-    // Crear decoys asegurando que tengan imágenes
     const decoys = shuffle(
       capitalData
         .filter((item) => item.country !== entry.country && item.image)
@@ -306,11 +294,10 @@ function buildQuestions() {
       .map((item) => ({
         country: item.country,
         region: item.region,
-        image: item.image, // Usar la imagen del país correspondiente
+        image: item.image,
         correct: false,
       }));
 
-    // Si no hay suficientes decoys con imagen, usar fallback
     while (decoys.length < 2) {
       const fallbackItem = capitalData.find(
         (item) => item.country !== entry.country && !decoys.some(d => d.country === item.country)
@@ -331,7 +318,7 @@ function buildQuestions() {
       {
         country: entry.country,
         region: entry.region,
-        image: entry.image, // Siempre usar la imagen del país correcto
+        image: entry.image,
         correct: true,
       },
       ...decoys,
@@ -354,17 +341,13 @@ function setScreen(activeScreen) {
     }
   });
   
-  // Mostrar leaderboard en pantalla de juego (solo desktop)
   if (activeScreen === SCREENS.game && leaderboard) {
     if (window.innerWidth > 768) {
-      // En desktop, el leaderboard está siempre visible en el grid
       leaderboard.style.display = "block";
     } else {
-      // En mobile, ocultar por defecto
       closeLeaderboard();
     }
   } else {
-    // En otras pantallas, ocultar en mobile
     if (window.innerWidth <= 768) {
       closeLeaderboard();
     }
@@ -424,15 +407,12 @@ function createOptionCard(option, index) {
   const button = document.createElement("button");
   button.className = "option-card";
   
-  // Asegurar que siempre haya una imagen válida del país correspondiente
   const imageUrl = option.image || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
   button.style.setProperty("--image", `url("${imageUrl}")`);
   
-  // Preload de imagen para evitar tarjetas grises
   const img = new Image();
   img.src = imageUrl;
   img.onerror = () => {
-    // Si la imagen falla, usar fallback
     button.style.setProperty("--image", `url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80")`);
   };
 
@@ -446,22 +426,10 @@ function createOptionCard(option, index) {
 
   button.append(country, region);
   
-  // Solo agregar hover en desktop
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    button.addEventListener("pointerenter", () => {
-      if (locked || button.disabled) return;
-      highlightCard(button);
-    });
-    
-    button.addEventListener("pointerleave", () => {
-      if (locked || button.disabled) return;
-      resetCardPositions();
-    });
-  }
-  
   button.addEventListener("click", (e) => {
     if (locked || button.disabled) {
       e.preventDefault();
+      e.stopPropagation();
       return;
     }
     handleSelection(option, button);
@@ -472,44 +440,12 @@ function createOptionCard(option, index) {
   return button;
 }
 
-function highlightCard(activeButton) {
-  optionsContainer.querySelectorAll(".option-card").forEach((card) => {
-    if (!card.classList.contains("correct") && !card.classList.contains("incorrect") && !card.disabled) {
-      if (card === activeButton) {
-        card.style.transform = "translateX(0) translateZ(50px) rotateY(0deg) scale(1.03)";
-        card.style.opacity = "1";
-        card.style.zIndex = "20";
-      }
-    }
-  });
-}
-
-function resetCardPositions() {
-  optionsContainer.querySelectorAll(".option-card").forEach((card, index) => {
-    if (!card.classList.contains("correct") && !card.classList.contains("incorrect") && !card.disabled) {
-      const transforms = [
-        "translateX(-60px) translateZ(-100px) rotateY(15deg) scale(0.85)",
-        "translateX(-30px) translateZ(-50px) rotateY(8deg) scale(0.92)",
-        "translateX(0) translateZ(0) rotateY(0deg) scale(1)",
-        "translateX(30px) translateZ(-50px) rotateY(-8deg) scale(0.92)",
-        "translateX(60px) translateZ(-100px) rotateY(-15deg) scale(0.85)",
-      ];
-      if (transforms[index]) {
-        card.style.transform = transforms[index];
-      }
-      card.style.opacity = index === 2 ? "1" : index === 1 || index === 3 ? "0.85" : "0.7";
-      card.style.zIndex = index === 2 ? "10" : "1";
-    }
-  });
-}
-
 function handleSelection(option, element) {
   if (locked || element.disabled) return;
   locked = true;
   
   const isCorrect = option.correct;
   
-  // Efecto de respuesta
   if (isCorrect) {
     score += POINTS_PER_CORRECT;
     streak += 1;
@@ -522,13 +458,11 @@ function handleSelection(option, element) {
 
   updateHud();
 
-  // Mostrar respuesta correcta y deshabilitar todas
   optionsContainer.querySelectorAll(".option-card").forEach((card) => {
     card.dataset.state = "disabled";
     card.disabled = true;
     card.style.pointerEvents = "none";
     
-    // Mostrar la respuesta correcta si no fue seleccionada
     if (card.dataset.correct === "true" && !card.classList.contains("correct")) {
       card.classList.add("correct");
     }
@@ -561,21 +495,10 @@ function renderQuestion() {
   const question = questions[currentIndex];
   capitalName.textContent = question.capital;
   
-  // Animación de entrada para la capital
-  capitalName.style.animation = "none";
-  setTimeout(() => {
-    if (capitalName) {
-      capitalName.style.animation = "pulse 2s ease-in-out infinite";
-    }
-  }, 10);
-  
   optionsContainer.innerHTML = "";
   
-  // Asegurar que todas las opciones tengan sus imágenes correctas
   question.options.forEach((option, index) => {
-    // Verificar que la opción tenga imagen
     if (!option.image) {
-      // Buscar la imagen en capitalData
       const countryData = capitalData.find(item => item.country === option.country);
       if (countryData && countryData.image) {
         option.image = countryData.image;
@@ -589,11 +512,6 @@ function renderQuestion() {
       optionsContainer.appendChild(card);
     }
   });
-  
-  // Resetear posiciones después de crear las tarjetas
-  setTimeout(() => {
-    resetCardPositions();
-  }, 100);
   
   updateHud();
   updateProgress();
@@ -627,19 +545,16 @@ function endGame(timeOver) {
     resultSummary.textContent = `Puntaje total: ${score} pts · Precisión: ${accuracy}%`;
   }
 
-  // Efecto confetti si dice "Bien hecho" (exactamente)
   if (message === "¡Bien hecho! 👍") {
     setTimeout(() => {
       createConfetti();
     }, 300);
   }
 
-  // Agregar al leaderboard
   if (currentPlayer && score > 0) {
     addToLeaderboard(currentPlayer, score);
   }
 
-  // Generar cupón
   generateCoupon();
 }
 
@@ -676,30 +591,40 @@ function startGame() {
   startTimer();
 }
 
-// Event listeners
-usernameInput.addEventListener("input", (e) => {
-  const value = e.target.value.trim();
-  startBtn.disabled = !value;
-});
+if (usernameInput) {
+  usernameInput.addEventListener("input", (e) => {
+    const value = e.target.value.trim();
+    if (startBtn) {
+      startBtn.disabled = !value;
+    }
+  });
 
-usernameInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter" && usernameInput.value.trim()) {
-    e.preventDefault();
-    startGame();
-  }
-});
+  usernameInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && usernameInput.value.trim()) {
+      e.preventDefault();
+      startGame();
+    }
+  });
+}
 
-startBtn.addEventListener("click", startGame);
+if (startBtn) {
+  startBtn.addEventListener("click", startGame);
+}
 
-restartBtn.addEventListener("click", () => {
-  setScreen(SCREENS.welcome);
-  stopTimer();
-  usernameInput.value = "";
-  startBtn.disabled = true;
-  usernameInput.focus();
-});
+if (restartBtn) {
+  restartBtn.addEventListener("click", () => {
+    setScreen(SCREENS.welcome);
+    stopTimer();
+    if (usernameInput) {
+      usernameInput.value = "";
+      usernameInput.focus();
+    }
+    if (startBtn) {
+      startBtn.disabled = true;
+    }
+  });
+}
 
-// Leaderboard toggle - verificar que los elementos existan
 if (leaderboardToggle) {
   leaderboardToggle.addEventListener("click", toggleLeaderboard);
 }
@@ -712,12 +637,6 @@ if (leaderboardOverlay) {
   leaderboardOverlay.addEventListener("click", closeLeaderboard);
 }
 
-// Verificar elementos críticos antes de inicializar
-if (!capitalName || !optionsContainer || !usernameInput || !startBtn) {
-  console.error("Error: Faltan elementos críticos del DOM");
-}
-
-// Manejar resize para ajustar leaderboard
 let resizeTimeout;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
@@ -725,12 +644,10 @@ window.addEventListener("resize", () => {
     if (!leaderboard || !leaderboardOverlay) return;
     
     if (window.innerWidth > 768) {
-      // Desktop: mostrar siempre en grid
       leaderboard.style.display = "block";
       leaderboard.classList.remove("leaderboard--visible");
       leaderboardOverlay.classList.remove("leaderboard-overlay--visible");
     } else {
-      // Mobile: ocultar si no está en pantalla de juego
       if (SCREENS.game && !SCREENS.game.classList.contains("screen--active")) {
         closeLeaderboard();
       }
@@ -738,7 +655,6 @@ window.addEventListener("resize", () => {
   }, 100);
 });
 
-// Inicialización - solo si los elementos existen
 if (SCREENS.welcome && questionCount && usernameInput) {
   setScreen(SCREENS.welcome);
   questionCount.textContent = `${MAX_ROUNDS} rondas`;
@@ -747,3 +663,4 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
+

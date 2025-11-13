@@ -7,7 +7,6 @@
 :root {
   color-scheme: light;
   font-family: "Inter", "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Paleta BUEMES VIAJES */
   --primary-red: #dc2626;
   --primary-red-dark: #b91c1c;
   --primary-red-light: #ef4444;
@@ -20,7 +19,6 @@
   --success: #10b981;
   --danger: #ef4444;
   --glass: rgba(255, 255, 255, 0.95);
-  --glass-soft: rgba(255, 255, 255, 0.85);
   --shadow: rgba(0, 0, 0, 0.1);
   --shadow-lg: rgba(0, 0, 0, 0.2);
 }
@@ -39,12 +37,14 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .app {
   position: relative;
   width: min(1400px, 95vw);
-  height: min(800px, 95vh);
+  min-height: min(800px, 95vh);
   border-radius: 24px;
   overflow: hidden;
   background: var(--white);
@@ -90,10 +90,6 @@ body {
 
 .leaderboard-toggle:hover {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.leaderboard-toggle__icon {
-  display: block;
 }
 
 .hud__group {
@@ -225,19 +221,21 @@ body {
   background: rgba(0, 0, 0, 0.5);
   z-index: 99;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .leaderboard-overlay--visible {
   display: block;
   opacity: 1;
+  pointer-events: auto;
 }
 
 .screen {
   position: relative;
   z-index: 1;
   display: none;
-  height: 100%;
+  min-height: 100%;
   padding: 40px clamp(24px, 4vw, 48px);
   align-items: center;
   justify-content: center;
@@ -315,16 +313,6 @@ body {
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.01em;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
 }
 
 .user-input {
@@ -389,7 +377,6 @@ body {
   position: relative;
   width: 100%;
   padding: 40px 0;
-  perspective: 1200px;
   overflow: visible;
 }
 
@@ -398,8 +385,7 @@ body {
   gap: 24px;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap;
-  transform-style: preserve-3d;
+  flex-wrap: wrap;
 }
 
 .option-card {
@@ -432,16 +418,15 @@ body {
   background-repeat: no-repeat;
   opacity: 1;
   z-index: -2;
-  transition: opacity 0.3s ease;
 }
 
 .option-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.65));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
   z-index: -1;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .option-card__country {
@@ -464,41 +449,10 @@ body {
   z-index: 1;
 }
 
-/* Carrusel 3D - cartas visibles una a la otra */
-.option-card:nth-child(1) {
-  transform: translateX(-60px) translateZ(-100px) rotateY(15deg) scale(0.85);
-  opacity: 0.7;
-}
-
-.option-card:nth-child(2) {
-  transform: translateX(-30px) translateZ(-50px) rotateY(8deg) scale(0.92);
-  opacity: 0.85;
-}
-
-.option-card:nth-child(3) {
-  transform: translateX(0) translateZ(0) rotateY(0deg) scale(1);
-  opacity: 1;
-  z-index: 10;
-  border-color: var(--primary-red);
-  box-shadow: 0 12px 40px rgba(220, 38, 38, 0.3);
-}
-
-.option-card:nth-child(4) {
-  transform: translateX(30px) translateZ(-50px) rotateY(-8deg) scale(0.92);
-  opacity: 0.85;
-}
-
-.option-card:nth-child(5) {
-  transform: translateX(60px) translateZ(-100px) rotateY(-15deg) scale(0.85);
-  opacity: 0.7;
-}
-
-/* Hover mejorado para desktop */
 @media (hover: hover) and (pointer: fine) {
   .option-card:hover:not([data-state="disabled"]):not(.correct):not(.incorrect) {
-    transform: translateX(0) translateZ(50px) rotateY(0deg) scale(1.03) !important;
-    opacity: 1 !important;
-    z-index: 20 !important;
+    transform: translateY(-4px) scale(1.03);
+    z-index: 5;
     border-color: var(--primary-red);
     box-shadow: 0 16px 48px rgba(220, 38, 38, 0.4);
   }
@@ -513,7 +467,7 @@ body {
 .option-card.correct {
   border-color: var(--success);
   box-shadow: 0 16px 48px rgba(16, 185, 129, 0.4);
-  animation: correctPulse 0.6s ease-out !important;
+  animation: correctPulse 0.6s ease-out;
 }
 
 @keyframes correctPulse {
@@ -531,7 +485,7 @@ body {
 .option-card.incorrect {
   border-color: var(--danger);
   box-shadow: 0 16px 48px rgba(239, 68, 68, 0.3);
-  animation: shake 0.5s ease-out !important;
+  animation: shake 0.5s ease-out;
 }
 
 @keyframes shake {
@@ -547,7 +501,7 @@ body {
 }
 
 .progress {
-  margin-top: 48px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -628,7 +582,6 @@ body {
   color: var(--white);
 }
 
-/* Confetti container */
 .confetti-container {
   position: fixed;
   top: 0;
@@ -655,10 +608,15 @@ body {
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
+  body {
+    padding: 0;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   .app {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     border-radius: 0;
     grid-template-columns: 1fr;
@@ -674,6 +632,7 @@ body {
     left: -100%;
     width: 280px;
     max-width: 85vw;
+    min-height: 100vh;
     height: 100vh;
     z-index: 100;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -693,22 +652,17 @@ body {
     display: block;
   }
 
-  .leaderboard-overlay {
-    display: block;
-  }
-
-  .leaderboard-overlay--visible {
-    opacity: 1;
-  }
-
   .screen {
     grid-column: 1;
+    min-height: auto;
+    padding: 20px 16px;
   }
 
   .hud {
     flex-wrap: wrap;
     gap: 12px;
-    padding: 16px 20px;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top));
   }
 
   .hud__group {
@@ -718,7 +672,7 @@ body {
 
   .panel {
     border-radius: 20px;
-    padding: 24px;
+    padding: 24px 20px;
   }
 
   .carousel-wrapper {
@@ -732,6 +686,7 @@ body {
   .carousel {
     gap: 16px;
     padding: 0 20px;
+    flex-wrap: nowrap;
   }
 
   .option-card {
@@ -739,25 +694,21 @@ body {
     scroll-snap-align: center;
   }
 
-  .option-card:nth-child(1),
-  .option-card:nth-child(2),
-  .option-card:nth-child(4),
-  .option-card:nth-child(5) {
-    transform: scale(0.9);
-    opacity: 0.8;
+  .progress {
+    margin-top: 12px;
   }
 
-  .option-card:nth-child(3) {
-    transform: scale(1);
-    opacity: 1;
+  .capital {
+    font-size: 1.75rem;
+    margin: 16px 0 24px;
+  }
+
+  .title {
+    font-size: 2rem;
   }
 }
 
 @media (max-width: 600px) {
-  body {
-    padding: 0;
-  }
-
   .hud,
   .footer {
     padding: 12px 16px;
@@ -769,15 +720,7 @@ body {
   }
 
   .panel {
-    padding: 20px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .capital {
-    font-size: 1.75rem;
+    padding: 20px 16px;
   }
 
   .option-card {
@@ -801,58 +744,6 @@ body {
   }
 }
 
-/* Efectos de transición motivadores */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px) translateZ(0) rotateY(0deg) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) translateZ(0) rotateY(0deg) scale(1);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.option-card {
-  animation: slideIn 0.5s ease-out backwards;
-}
-
-.option-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.option-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.option-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.option-card:nth-child(4) {
-  animation-delay: 0.2s;
-}
-
-.option-card:nth-child(5) {
-  animation-delay: 0.1s;
-}
-
-/* Evitar conflictos con otras reglas de .option-card */
-.option-card.correct,
-.option-card.incorrect,
-.option-card[data-state="disabled"] {
-  animation: none;
-}
-
 .success-effect {
   position: absolute;
   top: 50%;
@@ -866,3 +757,13 @@ body {
   text-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
   animation: bounce 0.6s ease-out;
 }
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}
+
