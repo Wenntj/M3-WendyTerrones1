@@ -224,15 +224,28 @@ function closeLeaderboard() {
   leaderboardOverlay.classList.remove("leaderboard-overlay--visible");
 }
 
-function generateCoupon() {
+function generateCoupon(playerScore) {
   if (!couponCode || !couponDiscount) return;
-  
-  const discounts = [5, 10, 15, 20, 25];
-  const discount = discounts[Math.floor(Math.random() * discounts.length)];
   
   const prefix = "BUEMES";
   const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
   const code = `${prefix}-${randomCode}`;
+  
+  let discount;
+  const maxPossibleScore = MAX_ROUNDS * POINTS_PER_CORRECT;
+  const percentage = (playerScore / maxPossibleScore) * 100;
+  
+  if (percentage >= 100) {
+    discount = 25;
+  } else if (percentage >= 80) {
+    discount = 20;
+  } else if (percentage >= 60) {
+    discount = 15;
+  } else if (percentage >= 40) {
+    discount = 10;
+  } else {
+    discount = 5;
+  }
   
   couponCode.textContent = code;
   couponDiscount.textContent = `${discount}% de descuento`;
@@ -555,7 +568,7 @@ function endGame(timeOver) {
     addToLeaderboard(currentPlayer, score);
   }
 
-  generateCoupon();
+  generateCoupon(score);
 }
 
 function resetGame() {

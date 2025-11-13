@@ -45,6 +45,7 @@ body {
   position: relative;
   width: min(1400px, 95vw);
   min-height: min(800px, 95vh);
+  max-height: 100vh;
   border-radius: 24px;
   overflow: hidden;
   background: var(--white);
@@ -65,7 +66,7 @@ body {
 .hud,
 .footer {
   position: relative;
-  z-index: 10;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -235,11 +236,12 @@ body {
   position: relative;
   z-index: 1;
   display: none;
-  min-height: 100%;
+  min-height: 0;
   padding: 40px clamp(24px, 4vw, 48px);
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+  overflow-x: hidden;
   grid-column: 2;
   grid-row: 2;
 }
@@ -617,9 +619,11 @@ body {
 
   .app {
     min-height: 100vh;
+    max-height: 100vh;
     width: 100vw;
     border-radius: 0;
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
   }
 
   .leaderboard-toggle {
@@ -654,8 +658,11 @@ body {
 
   .screen {
     grid-column: 1;
-    min-height: auto;
-    padding: 20px 16px;
+    min-height: 0;
+    padding: 16px;
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 140px);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .hud {
@@ -673,25 +680,32 @@ body {
   .panel {
     border-radius: 20px;
     padding: 24px 20px;
+    max-width: 100%;
+  }
+  
+  .panel--centered {
+    padding: 20px 16px;
   }
 
   .carousel-wrapper {
     padding: 20px 0;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
+    overflow: visible;
+    width: 100%;
   }
 
   .carousel {
-    gap: 16px;
-    padding: 0 20px;
-    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
   }
 
   .option-card {
-    width: 200px;
-    scroll-snap-align: center;
+    width: calc(33.333% - 8px);
+    min-width: 100px;
+    max-width: 140px;
+    aspect-ratio: 3 / 4;
   }
 
   .progress {
@@ -724,15 +738,17 @@ body {
   }
 
   .option-card {
-    width: 180px;
+    width: calc(33.333% - 8px);
+    min-width: 90px;
+    max-width: 120px;
   }
 
   .option-card__country {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .carousel {
-    gap: 12px;
+    gap: 8px;
   }
 
   .coupon {
@@ -766,4 +782,6 @@ body {
     transform: translate(-50%, -50%) translateY(-10px);
   }
 }
+
+
 
