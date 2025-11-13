@@ -3,37 +3,37 @@ const capitalData = [
     country: "Italia",
     capital: "Roma",
     region: "Europa",
-    image: "https://images.unsplash.com/photo-1526481280695-3c4699625883?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Japón",
     capital: "Tokio",
     region: "Asia",
-    image: "https://images.unsplash.com/photo-1587560699334-cc63d3d1ccb9?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Brasil",
     capital: "Brasilia",
     region: "América",
-    image: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Egipto",
     capital: "El Cairo",
     region: "África",
-    image: "https://images.unsplash.com/photo-1544983074-0f4a2d238b0d?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Australia",
     capital: "Canberra",
     region: "Oceanía",
-    image: "https://images.unsplash.com/photo-1510740694250-6b98fb27c287?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Canadá",
     capital: "Ottawa",
     region: "América",
-    image: "https://images.unsplash.com/photo-1517934205344-781ce5b4220c?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Corea del Sur",
@@ -45,7 +45,7 @@ const capitalData = [
     country: "Reino Unido",
     capital: "Londres",
     region: "Europa",
-    image: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "India",
@@ -63,7 +63,7 @@ const capitalData = [
     country: "Sudáfrica",
     capital: "Pretoria",
     region: "África",
-    image: "https://images.unsplash.com/photo-1519059530651-4ebe3cff63b2?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "México",
@@ -75,7 +75,7 @@ const capitalData = [
     country: "Alemania",
     capital: "Berlín",
     region: "Europa",
-    image: "https://images.unsplash.com/photo-1526481280695-3c4699625883?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Tailandia",
@@ -87,7 +87,7 @@ const capitalData = [
     country: "España",
     capital: "Madrid",
     region: "Europa",
-    image: "https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=800&q=80",
   },
   {
     country: "Francia",
@@ -420,24 +420,33 @@ function createOptionCard(option, index) {
   const button = document.createElement("button");
   button.className = "option-card";
   
-  const imageUrl = option.image || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
-  button.style.setProperty("--image", `url("${imageUrl}")`);
+  let imageUrl = option.image;
+  if (!imageUrl) {
+    const countryData = capitalData.find(item => item.country === option.country);
+    imageUrl = countryData ? countryData.image : "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+  }
   
+  button.style.setProperty("--image", `url("${imageUrl}")`);
+
   const img = new Image();
-  img.src = imageUrl;
-  img.onerror = () => {
-    button.style.setProperty("--image", `url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80")`);
+  img.onload = () => {
+    button.style.setProperty("--image", `url("${imageUrl}")`);
   };
+  img.onerror = () => {
+    const countryData = capitalData.find(item => item.country === option.country);
+    if (countryData && countryData.image) {
+      button.style.setProperty("--image", `url("${countryData.image}")`);
+    } else {
+      button.style.setProperty("--image", `url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80")`);
+    }
+  };
+  img.src = imageUrl;
 
   const country = document.createElement("p");
   country.className = "option-card__country";
   country.textContent = option.country;
 
-  const region = document.createElement("span");
-  region.className = "option-card__region";
-  region.textContent = option.region;
-
-  button.append(country, region);
+  button.append(country);
   
   button.addEventListener("click", (e) => {
     if (locked || button.disabled) {
@@ -558,7 +567,7 @@ function endGame(timeOver) {
     resultSummary.textContent = `Puntaje total: ${score} pts · Precisión: ${accuracy}%`;
   }
 
-  if (message === "¡Bien hecho! 👍") {
+  if (score >= 300) {
     setTimeout(() => {
       createConfetti();
     }, 300);

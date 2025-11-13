@@ -387,7 +387,7 @@ body {
   gap: 24px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .option-card {
@@ -402,9 +402,9 @@ body {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 24px;
-  display: grid;
-  align-content: end;
-  gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 24px var(--shadow);
   flex-shrink: 0;
   pointer-events: auto;
@@ -426,9 +426,9 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
   z-index: -1;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 .option-card__country {
@@ -439,16 +439,7 @@ body {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 1;
-}
-
-.option-card__region {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 500;
-  position: relative;
-  z-index: 1;
+  text-align: center;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -696,7 +687,7 @@ body {
   .carousel {
     gap: 12px;
     padding: 0;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: stretch;
   }
@@ -745,6 +736,7 @@ body {
 
   .option-card__country {
     font-size: 1.1rem;
+    text-align: center;
   }
 
   .carousel {
