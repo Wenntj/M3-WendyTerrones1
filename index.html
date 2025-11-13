@@ -16,6 +16,9 @@
     <main class="app">
       <div class="ambient"></div>
       <header class="hud">
+        <button class="leaderboard-toggle" id="leaderboard-toggle" aria-label="Ver leaderboard">
+          <span class="leaderboard-toggle__icon">🏆</span>
+        </button>
         <div class="hud__group">
           <span class="hud__label">Ronda</span>
           <span class="hud__value" id="round-indicator">0 / 5</span>
@@ -37,11 +40,13 @@
       <aside class="leaderboard" id="leaderboard">
         <div class="leaderboard__header">
           <h3 class="leaderboard__title">🏆 Mejores Puntajes</h3>
+          <button class="leaderboard__close" id="leaderboard-close" aria-label="Cerrar leaderboard">×</button>
         </div>
         <ul class="leaderboard__list" id="leaderboard-list">
           <li class="leaderboard__empty">Aún no hay puntajes</li>
         </ul>
       </aside>
+      <div class="leaderboard-overlay" id="leaderboard-overlay"></div>
 
       <section class="screen screen--active" id="welcome-screen">
         <div class="panel panel--centered">
