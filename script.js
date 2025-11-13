@@ -1,355 +1,730 @@
-const capitalData = [
-    {
-      country: "Italia",
-      capital: "Roma",
-      region: "Europa",
-      image:
-        "https://images.unsplash.com/photo-1526481280695-3c4699625883?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Japón",
-      capital: "Tokio",
-      region: "Asia",
-      image:
-        "https://images.unsplash.com/photo-1587560699334-cc63d3d1ccb9?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Brasil",
-      capital: "Brasilia",
-      region: "América",
-      image:
-        "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Egipto",
-      capital: "El Cairo",
-      region: "África",
-      image:
-        "https://images.unsplash.com/photo-1544983074-0f4a2d238b0d?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Australia",
-      capital: "Canberra",
-      region: "Oceanía",
-      image:
-        "https://images.unsplash.com/photo-1510740694250-6b98fb27c287?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Canadá",
-      capital: "Ottawa",
-      region: "América",
-      image:
-        "https://images.unsplash.com/photo-1517934205344-781ce5b4220c?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Corea del Sur",
-      capital: "Seúl",
-      region: "Asia",
-      image:
-        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Reino Unido",
-      capital: "Londres",
-      region: "Europa",
-      image:
-        "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "India",
-      capital: "Nueva Delhi",
-      region: "Asia",
-      image:
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Argentina",
-      capital: "Buenos Aires",
-      region: "América",
-      image:
-        "https://images.unsplash.com/photo-1580843490734-2f9b92afb378?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Sudáfrica",
-      capital: "Pretoria",
-      region: "África",
-      image:
-        "https://images.unsplash.com/photo-1519059530651-4ebe3cff63b2?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "México",
-      capital: "Ciudad de México",
-      region: "América",
-      image:
-        "https://images.unsplash.com/photo-1526402465762-c2f94db4ccb1?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Alemania",
-      capital: "Berlín",
-      region: "Europa",
-      image:
-        "https://images.unsplash.com/photo-1526481280695-3c4699625883?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "Tailandia",
-      capital: "Bangkok",
-      region: "Asia",
-      image:
-        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      country: "España",
-      capital: "Madrid",
-      region: "Europa",
-      image:
-        "https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?auto=format&fit=crop&w=800&q=80",
-    },
-  ];
-  
-  const SCREENS = {
-    welcome: document.getElementById("welcome-screen"),
-    game: document.getElementById("game-screen"),
-    result: document.getElementById("result-screen"),
-  };
-  
-  const capitalName = document.getElementById("capital-name");
-  const optionsContainer = document.getElementById("options-container");
-  const roundIndicator = document.getElementById("round-indicator");
-  const streakIndicator = document.getElementById("streak-indicator");
-  const scoreIndicator = document.getElementById("score-indicator");
-  const timerIndicator = document.getElementById("timer-indicator");
-  const progressBar = document.getElementById("progress-bar");
-  const resultTitle = document.getElementById("result-title");
-  const resultSummary = document.getElementById("result-summary");
-  const questionCount = document.getElementById("question-count");
-  
-  const startBtn = document.getElementById("start-btn");
-  const restartBtn = document.getElementById("restart-btn");
-  
-  const MAX_TIME = 120;
-  const POINTS_PER_CORRECT = 100;
-  
-  let questions = [];
-  let currentIndex = 0;
-  let score = 0;
-  let streak = 0;
-  let timer = MAX_TIME;
-  let timerId = null;
-  let locked = false;
-  
-  function shuffle(array) {
-    const cloned = [...array];
-    for (let i = cloned.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
-    }
-    return cloned;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light;
+  font-family: "Inter", "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Paleta BUEMES VIAJES */
+  --primary-red: #dc2626;
+  --primary-red-dark: #b91c1c;
+  --primary-red-light: #ef4444;
+  --white: #ffffff;
+  --gray-light: #f5f5f5;
+  --gray: #6b7280;
+  --gray-dark: #374151;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --success: #10b981;
+  --danger: #ef4444;
+  --glass: rgba(255, 255, 255, 0.95);
+  --glass-soft: rgba(255, 255, 255, 0.85);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.2);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e5e7eb 100%);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app {
+  position: relative;
+  width: min(1400px, 95vw);
+  height: min(800px, 95vh);
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  box-shadow: 0 20px 60px var(--shadow-lg);
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.05), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hud,
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  background: var(--primary-red);
+  color: var(--white);
+  grid-column: 1 / -1;
+}
+
+.hud__group {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.hud__label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hud__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.leaderboard {
+  position: relative;
+  z-index: 2;
+  width: 280px;
+  background: var(--gray-light);
+  border-left: 2px solid var(--primary-red);
+  padding: 24px;
+  overflow-y: auto;
+  display: none;
+}
+
+.leaderboard--visible {
+  display: block;
+}
+
+.leaderboard__header {
+  margin-bottom: 20px;
+}
+
+.leaderboard__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.leaderboard__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leaderboard__item {
+  background: var(--white);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-red);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leaderboard__item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.leaderboard__item--top {
+  border-left-color: #fbbf24;
+  background: linear-gradient(135deg, #fef3c7, var(--white));
+}
+
+.leaderboard__rank {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-red);
+  margin-bottom: 4px;
+}
+
+.leaderboard__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+
+.leaderboard__score {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.leaderboard__empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 20px;
+}
+
+.screen {
+  position: relative;
+  z-index: 1;
+  display: none;
+  height: 100%;
+  padding: 40px clamp(24px, 4vw, 48px);
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.screen--active {
+  display: flex !important;
+}
+
+.panel {
+  width: 100%;
+  max-width: 800px;
+  background: var(--glass);
+  border-radius: 24px;
+  padding: clamp(32px, 4vw, 48px);
+  box-shadow: 0 10px 40px var(--shadow);
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  function buildQuestions() {
-    const shuffled = shuffle(capitalData);
-    return shuffled.map((entry) => {
-      const decoys = shuffle(
-        capitalData
-          .filter((item) => item.country !== entry.country)
-          .slice(0, 6)
-      )
-        .slice(0, 2)
-        .map((item) => ({
-          country: item.country,
-          region: item.region,
-          image: item.image,
-          correct: false,
-        }));
-  
-      const options = shuffle([
-        {
-          country: entry.country,
-          region: entry.region,
-          image: entry.image,
-          correct: true,
-        },
-        ...decoys,
-      ]);
-  
-      return {
-        capital: entry.capital,
-        answer: entry.country,
-        options,
-      };
-    });
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  function setScreen(activeScreen) {
-    Object.values(SCREENS).forEach((screen) => {
-      screen.classList.toggle("screen--active", screen === activeScreen);
-    });
+}
+
+.panel--centered {
+  text-align: center;
+}
+
+.tagline {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.title {
+  font-size: clamp(2.5rem, 4vw + 1rem, 3.5rem);
+  margin: 0 0 16px;
+  font-weight: 800;
+  color: var(--primary-red);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.lead {
+  margin: 16px 0 32px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.capital {
+  margin: 24px 0 40px;
+  font-size: clamp(2rem, 3vw + 1rem, 3rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
   }
-  
-  function updateHud() {
-    roundIndicator.textContent = `${Math.min(currentIndex + 1, questions.length)} / ${
-      questions.length
-    }`;
-    streakIndicator.textContent = streak;
-    scoreIndicator.textContent = score;
+  50% {
+    transform: scale(1.02);
   }
-  
-  function updateProgress() {
-    const progress = questions.length
-      ? ((currentIndex + 1) / questions.length) * 100
-      : 0;
-    progressBar.style.width = `${progress}%`;
+}
+
+.user-input {
+  margin: 24px 0;
+}
+
+.input {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px 20px;
+  border: 2px solid var(--gray);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--white);
+  color: var(--text);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 16px 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--gray);
+  color: var(--white);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.btn:hover:not(:disabled),
+.btn:focus-visible:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--primary-red);
+  color: var(--white);
+}
+
+.btn--primary:hover:not(:disabled),
+.btn--primary:focus-visible:not(:disabled) {
+  background: var(--primary-red-dark);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 40px 0;
+  perspective: 1200px;
+  overflow: visible;
+}
+
+.carousel {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  transform-style: preserve-3d;
+}
+
+.option-card {
+  position: relative;
+  width: 240px;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 24px;
+  display: grid;
+  align-content: end;
+  gap: 12px;
+  box-shadow: 0 8px 24px var(--shadow);
+  flex-shrink: 0;
+}
+
+.option-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--image, linear-gradient(135deg, var(--primary-red-light), var(--primary-red)) center / cover no-repeat);
+  opacity: 0.9;
+  z-index: -2;
+  transition: opacity 0.3s ease;
+}
+
+.option-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+  z-index: -1;
+}
+
+.option-card__country {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--white);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.option-card__region {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Carrusel 3D - cartas visibles una a la otra */
+.option-card:nth-child(1) {
+  transform: translateX(-60px) translateZ(-100px) rotateY(15deg) scale(0.85);
+  opacity: 0.7;
+}
+
+.option-card:nth-child(2) {
+  transform: translateX(-30px) translateZ(-50px) rotateY(8deg) scale(0.92);
+  opacity: 0.85;
+}
+
+.option-card:nth-child(3) {
+  transform: translateX(0) translateZ(0) rotateY(0deg) scale(1);
+  opacity: 1;
+  z-index: 10;
+  border-color: var(--primary-red);
+  box-shadow: 0 12px 40px rgba(220, 38, 38, 0.3);
+}
+
+.option-card:nth-child(4) {
+  transform: translateX(30px) translateZ(-50px) rotateY(-8deg) scale(0.92);
+  opacity: 0.85;
+}
+
+.option-card:nth-child(5) {
+  transform: translateX(60px) translateZ(-100px) rotateY(-15deg) scale(0.85);
+  opacity: 0.7;
+}
+
+.option-card:hover {
+  transform: translateX(0) translateZ(50px) rotateY(0deg) scale(1.05) !important;
+  opacity: 1 !important;
+  z-index: 20 !important;
+  border-color: var(--primary-red);
+  box-shadow: 0 16px 48px rgba(220, 38, 38, 0.4);
+}
+
+.option-card[data-state="disabled"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.option-card.correct {
+  border-color: var(--success);
+  box-shadow: 0 16px 48px rgba(16, 185, 129, 0.4);
+  animation: correctPulse 0.6s ease-out;
+}
+
+@keyframes correctPulse {
+  0% {
+    transform: scale(1);
   }
-  
-  function updateTimerDisplay() {
-    const minutes = String(Math.floor(timer / 60)).padStart(2, "0");
-    const seconds = String(timer % 60).padStart(2, "0");
-    timerIndicator.textContent = `${minutes}:${seconds}`;
+  50% {
+    transform: scale(1.1);
   }
-  
-  function stopTimer() {
-    if (timerId) {
-      clearInterval(timerId);
-      timerId = null;
-    }
+  100% {
+    transform: scale(1);
   }
-  
-  function startTimer() {
-    stopTimer();
-    timer = MAX_TIME;
-    updateTimerDisplay();
-    timerId = setInterval(() => {
-      timer -= 1;
-      updateTimerDisplay();
-      if (timer <= 0) {
-        stopTimer();
-        endGame(true);
-      }
-    }, 1000);
+}
+
+.option-card.incorrect {
+  border-color: var(--danger);
+  box-shadow: 0 16px 48px rgba(239, 68, 68, 0.4);
+  animation: shake 0.5s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
   }
-  
-  function createOptionCard(option, index) {
-    const button = document.createElement("button");
-    button.className = "option-card";
-    button.dataset.state = index === 1 ? "active" : "inactive";
-    button.style.setProperty("--image", `url("${option.image}")`);
-  
-    const country = document.createElement("p");
-    country.className = "option-card__country";
-    country.textContent = option.country;
-  
-    const region = document.createElement("span");
-    region.className = "option-card__region";
-    region.textContent = option.region;
-  
-    button.append(country, region);
-    button.addEventListener("pointerenter", () => {
-      if (locked) return;
-      setActiveCard(button);
-    });
-    button.addEventListener("click", () => handleSelection(option, button));
-  
-    button.disabled = false;
-    button.dataset.correct = option.correct ? "true" : "false";
-    return button;
+  25% {
+    transform: translateX(-10px);
   }
-  
-  function setActiveCard(activeButton) {
-    optionsContainer.querySelectorAll(".option-card").forEach((card) => {
-      const state = card === activeButton ? "active" : "inactive";
-      if (!card.classList.contains("correct") && !card.classList.contains("incorrect")) {
-        card.dataset.state = state;
-      }
-    });
+  75% {
+    transform: translateX(10px);
   }
-  
-  function handleSelection(option, element) {
-    if (locked) return;
-    locked = true;
-    const isCorrect = option.correct;
-    if (isCorrect) {
-      score += POINTS_PER_CORRECT;
-      streak += 1;
-      element.classList.add("correct");
-    } else {
-      streak = 0;
-      element.classList.add("incorrect");
-    }
-  
-    updateHud();
-  
-    optionsContainer.querySelectorAll(".option-card").forEach((card) => {
-      card.dataset.state = "disabled";
-      card.disabled = true;
-      if (card.dataset.correct === "true") {
-        card.classList.add("correct");
-      }
-    });
-  
-    setTimeout(() => {
-      currentIndex += 1;
-      if (currentIndex >= questions.length) {
-        endGame(false);
-      } else {
-        renderQuestion();
-        locked = false;
-      }
-    }, 1200);
+}
+
+.progress {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+}
+
+.progress__meter {
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--gray-light);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px var(--shadow);
+}
+
+.progress__bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-red), var(--primary-red-light));
+  width: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 999px;
+}
+
+.coupon {
+  margin: 32px 0;
+  padding: 32px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 3px dashed var(--primary-red);
+  border-radius: 20px;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.coupon__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.coupon__icon {
+  font-size: 2rem;
+}
+
+.coupon__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.coupon__code {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-red);
+  letter-spacing: 0.1em;
+  margin: 16px 0;
+  font-family: "Poppins", monospace;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.coupon__discount {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 8px 0;
+}
+
+.coupon__info {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 16px 0 0;
+}
+
+.footer {
+  font-size: 0.85rem;
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .leaderboard {
+    width: 240px;
   }
-  
-  function renderQuestion() {
-    const question = questions[currentIndex];
-    capitalName.textContent = question.capital;
-    optionsContainer.innerHTML = "";
-    question.options.forEach((option, index) => {
-      const card = createOptionCard(option, index);
-      optionsContainer.appendChild(card);
-    });
-    updateHud();
-    updateProgress();
+}
+
+@media (max-width: 900px) {
+  .app {
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0;
+    grid-template-columns: 1fr;
   }
-  
-  function endGame(timeOver) {
-    stopTimer();
-    setScreen(SCREENS.result);
-  
-    const accuracy = questions.length
-      ? Math.round((score / (questions.length * POINTS_PER_CORRECT)) * 100)
-      : 0;
-    const message = timeOver
-      ? "¡Se acabó el tiempo!"
-      : accuracy >= 70
-      ? "¡Excelente dominio geográfico!"
-      : "Sigue practicando, vas por buen camino.";
-  
-    resultTitle.textContent = message;
-    resultSummary.textContent = `Puntaje total: ${score} pts · Respuestas correctas: ${accuracy}%`;
+
+  .leaderboard {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    z-index: 100;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 20px var(--shadow-lg);
   }
-  
-  function resetGame() {
-    score = 0;
-    streak = 0;
-    currentIndex = 0;
-    locked = false;
-    questions = buildQuestions();
-    questionCount.textContent = `${questions.length} preguntas`;
-    updateHud();
-    updateTimerDisplay();
+
+  .leaderboard--visible {
+    right: 0;
   }
-  
-  function startGame() {
-    resetGame();
-    setScreen(SCREENS.game);
-    renderQuestion();
-    updateProgress();
-    startTimer();
+
+  .hud {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
   }
-  
-  startBtn.addEventListener("click", startGame);
-  restartBtn.addEventListener("click", () => {
-    setScreen(SCREENS.welcome);
-    stopTimer();
-  });
-  
-  setScreen(SCREENS.welcome);
-  questionCount.textContent = `${capitalData.length} preguntas base`;
+
+  .hud__group {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .panel {
+    border-radius: 20px;
+    padding: 24px;
+  }
+
+  .carousel-wrapper {
+    padding: 20px 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .carousel {
+    gap: 16px;
+    padding: 0 20px;
+  }
+
+  .option-card {
+    width: 200px;
+    scroll-snap-align: center;
+  }
+
+  .option-card:nth-child(1),
+  .option-card:nth-child(2),
+  .option-card:nth-child(4),
+  .option-card:nth-child(5) {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+
+  .option-card:nth-child(3) {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  .hud,
+  .footer {
+    padding: 12px 16px;
+    font-size: 0.8rem;
+  }
+
+  .hud__value {
+    font-size: 0.95rem;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .capital {
+    font-size: 1.75rem;
+  }
+
+  .option-card {
+    width: 180px;
+  }
+
+  .option-card__country {
+    font-size: 1.2rem;
+  }
+
+  .carousel {
+    gap: 12px;
+  }
+
+  .coupon {
+    padding: 24px;
+  }
+
+  .coupon__code {
+    font-size: 1.5rem;
+  }
+}
+
+/* Efectos de transición motivadores */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.option-card {
+  animation: slideIn 0.5s ease-out backwards;
+}
+
+.option-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.option-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.option-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.option-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.option-card:nth-child(5) {
+  animation-delay: 0.1s;
+}
+
