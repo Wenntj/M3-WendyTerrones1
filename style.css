@@ -1,3 +1,4 @@
+*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -434,13 +435,12 @@ body {
   inset: 0;
   background-image: var(--image, linear-gradient(135deg, var(--primary-red-light), var(--primary-red)));
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
   opacity: 1 !important;
   z-index: -2;
   border-radius: 17px;
   transform: none !important;
-  animation: none !important;
   will-change: auto;
   image-rendering: auto;
 }
@@ -489,23 +489,33 @@ body {
 .option-card.correct {
   border-color: var(--success);
   box-shadow: 0 16px 48px rgba(16, 185, 129, 0.4);
-  animation: none !important;
+  animation: correctPulse 0.6s ease-out;
+}
+
+@keyframes correctPulse {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .option-card.correct::before {
   transform: none !important;
-  animation: none !important;
 }
 
 .option-card.incorrect {
   border-color: var(--danger);
   box-shadow: 0 16px 48px rgba(239, 68, 68, 0.3);
-  animation: none !important;
+  animation: shake 0.5s ease-out;
 }
 
 .option-card.incorrect::before {
   transform: none !important;
-  animation: none !important;
 }
 
 @keyframes shake {
@@ -522,7 +532,6 @@ body {
 
 .option-card[data-state="disabled"]::before {
   transform: none !important;
-  animation: none !important;
 }
 
 .progress {
@@ -754,9 +763,8 @@ body {
   
   .option-card::before {
     background-size: cover;
-    background-position: center center;
+    background-position: center;
     transform: none !important;
-    animation: none !important;
   }
 
   .progress {
@@ -937,8 +945,6 @@ body {
     font-size: 0.85rem;
   }
 }
-
-
 
 
 
