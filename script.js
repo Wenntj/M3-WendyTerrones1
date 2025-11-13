@@ -551,17 +551,21 @@ function endGame(timeOver) {
   if (timeOver) {
     message = "¡Se acabó el tiempo!";
   } else if (accuracy === 100) {
-    message = "¡Perfecto! 🎉";
+    message = "¡Perfecto!";
   } else if (accuracy >= 80) {
-    message = "¡Excelente trabajo! 🌟";
+    message = "¡Excelente trabajo!";
   } else if (accuracy >= 60) {
-    message = "¡Bien hecho! 👍";
+    message = "¡Bien hecho!";
   } else {
-    message = "Sigue practicando 💪";
+    message = "Sigue practicando";
   }
 
   if (resultTitle) {
-    resultTitle.textContent = message;
+    if (message === "¡Bien hecho!" && currentPlayer) {
+      resultTitle.textContent = `¡Bien hecho ${currentPlayer}!`;
+    } else {
+      resultTitle.textContent = message;
+    }
   }
   if (resultSummary) {
     resultSummary.textContent = `Puntaje total: ${score} pts · Precisión: ${accuracy}%`;
@@ -685,4 +689,5 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
+
 

@@ -310,7 +310,7 @@ body {
 }
 
 .capital {
-  margin: 24px 0 40px;
+  margin: 24px 0 20px;
   font-size: clamp(2rem, 3vw + 1rem, 3rem);
   font-weight: 700;
   color: var(--text);
@@ -378,7 +378,7 @@ body {
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  padding: 40px 0;
+  padding: 20px 0;
   overflow: visible;
 }
 
@@ -418,7 +418,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 1;
+  opacity: 1 !important;
   z-index: -2;
 }
 
@@ -426,9 +426,9 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .option-card__country {
@@ -535,10 +535,6 @@ body {
   margin-bottom: 20px;
 }
 
-.coupon__icon {
-  font-size: 2rem;
-}
-
 .coupon__title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -615,6 +611,7 @@ body {
     border-radius: 0;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
+    overflow: hidden;
   }
 
   .leaderboard-toggle {
@@ -654,6 +651,16 @@ body {
     max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 140px);
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .screen::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .screen {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .hud {
@@ -661,6 +668,9 @@ body {
     gap: 12px;
     padding: 12px 16px;
     padding-top: calc(12px + env(safe-area-inset-top));
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .hud__group {
@@ -705,7 +715,11 @@ body {
 
   .capital {
     font-size: 1.75rem;
-    margin: 16px 0 24px;
+    margin: 16px 0 12px;
+  }
+  
+  .carousel-wrapper {
+    padding: 12px 0;
   }
 
   .title {
