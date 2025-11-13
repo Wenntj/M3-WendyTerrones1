@@ -123,6 +123,7 @@ const capitalData = [
 
 const SCREENS = {
   welcome: document.getElementById("welcome-screen"),
+  check: document.getElementById("check-screen"),
   game: document.getElementById("game-screen"),
   result: document.getElementById("result-screen"),
 };
@@ -148,6 +149,9 @@ const leaderboardClose = document.getElementById("leaderboard-close");
 const leaderboardOverlay = document.getElementById("leaderboard-overlay");
 const couponCode = document.getElementById("coupon-code");
 const couponDiscount = document.getElementById("coupon-discount");
+const checkBtn = document.getElementById("check-btn");
+const backBtn = document.getElementById("back-btn");
+const checkGrid = document.getElementById("check-grid");
 
 const MAX_ROUNDS = 5;
 const MAX_TIME = 120;
@@ -683,6 +687,54 @@ window.addEventListener("resize", () => {
   }, 100);
 });
 
+function renderCheckScreen() {
+  if (!checkGrid) return;
+  
+  checkGrid.innerHTML = "";
+  
+  capitalData.forEach((country) => {
+    const card = document.createElement("div");
+    card.className = "check-card";
+    
+    const image = document.createElement("div");
+    image.className = "check-card__image";
+    image.style.setProperty("--image", `url("${country.image}")`);
+    image.style.backgroundImage = `url("${country.image}")`;
+    
+    const info = document.createElement("div");
+    info.className = "check-card__info";
+    
+    const countryName = document.createElement("h3");
+    countryName.className = "check-card__country";
+    countryName.textContent = country.country;
+    
+    const capital = document.createElement("p");
+    capital.className = "check-card__capital";
+    capital.textContent = country.capital;
+    
+    const region = document.createElement("span");
+    region.className = "check-card__region";
+    region.textContent = country.region;
+    
+    info.append(countryName, capital, region);
+    card.append(image, info);
+    checkGrid.appendChild(card);
+  });
+}
+
+if (checkBtn) {
+  checkBtn.addEventListener("click", () => {
+    renderCheckScreen();
+    setScreen(SCREENS.check);
+  });
+}
+
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    setScreen(SCREENS.welcome);
+  });
+}
+
 if (SCREENS.welcome && questionCount && usernameInput) {
   setScreen(SCREENS.welcome);
   questionCount.textContent = `${MAX_ROUNDS} rondas`;
@@ -691,4 +743,6 @@ if (SCREENS.welcome && questionCount && usernameInput) {
   }
   usernameInput.focus();
 }
+
+
 
