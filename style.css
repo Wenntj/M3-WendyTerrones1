@@ -227,22 +227,22 @@ body {
   padding: 20px;
 }
 
-.leaderboard-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 98;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
+  .leaderboard-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
 
-.leaderboard-overlay--visible {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
-}
+  .leaderboard-overlay--visible {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
 
 .screen {
   position: relative;
@@ -688,6 +688,14 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
+    display: grid;
+  }
+
+  .footer {
+    grid-row: 3;
+    position: relative;
+    z-index: 100;
+    width: 100%;
   }
 
   .leaderboard-toggle {
@@ -696,24 +704,30 @@ body {
 
   .leaderboard {
     position: fixed;
-    top: 0;
-    left: -100%;
-    width: 280px;
-    max-width: 85vw;
-    min-height: 100vh;
-    height: 100vh;
-    z-index: 99;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 4px 0 20px var(--shadow-lg);
-    border-right: 2px solid var(--primary-red);
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 70vh;
+    height: auto;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -4px 20px var(--shadow-lg);
+    border-right: none;
     border-left: none;
+    border-top: 2px solid var(--primary-red);
+    border-radius: 20px 20px 0 0;
     grid-column: unset;
     grid-row: unset;
     display: block;
+    overflow-y: auto;
   }
 
   .leaderboard--visible {
-    left: 0;
+    transform: translateY(0);
   }
 
   .leaderboard__close {
@@ -722,9 +736,11 @@ body {
 
   .screen {
     grid-column: 1;
+    grid-row: 2;
     min-height: 0;
     padding: 8px;
     padding-top: calc(8px + 90px);
+    padding-bottom: calc(8px + 60px);
     max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     overflow-y: auto;
     overflow-x: hidden;
@@ -743,7 +759,8 @@ body {
     padding: 10px 8px;
     padding-top: calc(10px + env(safe-area-inset-top));
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-    padding-right: 50px;
+    padding-left: 50px;
+    padding-right: 8px;
     position: fixed;
     top: 0;
     left: 0;
@@ -761,7 +778,7 @@ body {
   .leaderboard-toggle {
     position: absolute;
     top: calc(10px + env(safe-area-inset-top));
-    right: 8px;
+    left: 8px;
     flex-shrink: 0;
     margin: 0;
     padding: 6px 10px;
@@ -921,12 +938,13 @@ body {
 
   .screen {
     padding-top: calc(8px + 85px);
+    padding-bottom: calc(8px + 60px);
   }
 
   .leaderboard-toggle {
     position: absolute;
     top: calc(10px + env(safe-area-inset-top));
-    right: 8px;
+    left: 8px;
     flex-shrink: 0;
     margin: 0;
     padding: 5px 8px;
@@ -1080,6 +1098,7 @@ body {
     transform: translate(-50%, -50%) translateY(-10px);
   }
 }
+
 
 
 
