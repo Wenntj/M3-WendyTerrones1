@@ -685,7 +685,8 @@ body {
     border-radius: 0;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: relative;
   }
 
@@ -723,7 +724,8 @@ body {
     grid-column: 1;
     min-height: 0;
     padding: 8px;
-    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 120px);
+    padding-top: calc(8px + 90px);
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -738,17 +740,21 @@ body {
   .hud {
     flex-wrap: wrap;
     gap: 6px 3px;
-    padding: 12px 10px;
-    padding-top: calc(12px + env(safe-area-inset-top));
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    position: sticky;
+    padding: 10px 8px;
+    padding-top: calc(10px + env(safe-area-inset-top));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000 !important;
     width: 100%;
     box-sizing: border-box;
     background: var(--primary-red) !important;
-    min-height: fit-content;
+    min-height: auto;
+    max-height: none;
     align-items: flex-start;
+    overflow: visible;
   }
 
   .leaderboard-toggle {
@@ -764,6 +770,7 @@ body {
     min-width: 60px;
     max-width: calc(25% - 3px);
     gap: 2px;
+    overflow: visible;
   }
 
   .hud__group:last-child {
@@ -893,6 +900,14 @@ body {
     padding-top: calc(10px + env(safe-area-inset-top));
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     gap: 5px 2px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .screen {
+    padding-top: calc(8px + 85px);
   }
 
   .leaderboard-toggle {
@@ -1040,5 +1055,7 @@ body {
     transform: translate(-50%, -50%) translateY(-10px);
   }
 }
+
+
 
 
